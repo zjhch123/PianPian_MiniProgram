@@ -1,0 +1,18 @@
+<!--components/Modal/Modal.wxml-->
+<view 
+  wx:if="{{visiable}}"
+  class="m-modal {{!leave ? 'm-modal-enter' : 'm-modal-leave'}}">
+  <view class="u-bg"/>
+  <view class="m-content" style="top: {{top}}px">
+    <view class="u-title">
+      <slot name="title"></slot>
+    </view>
+    <view class="u-content">
+      <slot name="content"></slot>
+    </view>
+    <view class="u-footer">
+      <button class="u-btn" plain bind:tap="hideModal">取消</button>
+      <button class="u-btn u-success" plain>提交</button>
+    </view>
+  </view>
+</view>

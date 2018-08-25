@@ -31,17 +31,30 @@
   font-weight: bold;
   color: #353535;
 }
+.m-info .u-company {
+  margin-top: 8rpx;
+}
 .m-info .u-job {
+  margin-bottom: 8rpx;
+}
+.m-info .u-job, .m-info .u-company {
   font-size: 30rpx;
   color: #353535;
-  margin: 12rpx 0;
+  display: block;
+  height: 50rpx;
+  line-height: 50rpx;
+  min-height: 0;
 }
 .m-info .u-desc {
   font-size: 24rpx;
-  margin: 3rpx 0;
+  margin: 0 auto;
   color: #888;
+  text-align: center;
+  height: 36rpx;
+  line-height: 1.5;
 }
-.m-info .line {
+.m-info::after {
+  content: '';
   height: 4rpx;
   width: 100%;
   background-color: #ececec;

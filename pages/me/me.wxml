@@ -1,36 +1,79 @@
 <!--pages/user/user.wxml-->
 <view class="g-container g-me">
-  <view class="m-header">
-    <image class="u-img" src="https://image.hduzplus.xyz/image/1a790d56-b465-464d-9798-dfcbd0fc35a9.png"/>
+  <view class="m-header-container">
+    <view class="m-header">
+      <image class="u-img" src="https://image.hduzplus.xyz/image/b4a9b43d-cf14-4019-8656-08732ce48230.png"/>
+    </view>
+    <icon class="u-photo"></icon>
   </view>
   <view class="m-info">
+    <icon class="u-edit" bind:tap="showEditBase"></icon>
     <text class="u-name">张佳皓</text>
-    <text class="u-job">前端工程师 网易杭州科技有限公司</text>
-    <text class="u-desc">"每天叫醒自己的不是闹钟，而是梦想。"</text>
-    <view class="line"></view>
+    <text class="u-company">网易杭州科技有限公司</text>
+    <text class="u-job">前端工程师</text>
+    <text class="u-desc">每天叫醒自己的不是闹钟，而是梦想。</text>
   </view>
   <view class="m-content">
-    <text class="u-tlt">工作经历</text>
-    <view class="m-exp-list">
-      <view class="m-exp">
-        <text class="u-company">网易杭州科技有限公司</text>
-        <text class="u-job">前端开发工程师</text>
-        <text class="u-date">2018 年 7 月 - 至今</text>
+    <view class="m-work-exp">
+      <text class="u-tlt">工作经历</text>
+      <view class="m-exp-list">
+        <view class="m-exp">
+          <icon class="u-edit"></icon>
+          <text class="u-company">网易杭州科技有限公司</text>
+          <text class="u-job">前端开发工程师</text>
+          <text class="u-date">2018 年 7 月 - 至今</text>
+        </view>
+        <view class="m-exp">
+          <icon class="u-edit"></icon>
+          <text class="u-company">网易杭州科技有限公司</text>
+          <text class="u-job">前端开发实习生</text>
+          <text class="u-date">2017 年 3 月 - 2018 年 6 月</text>
+        </view>
       </view>
-      <view class="m-exp">
-        <text class="u-company">网易杭州科技有限公司</text>
-        <text class="u-job">前端开发实习生</text>
-        <text class="u-date">2017 年 3 月 - 2018 年 6 月</text>
-      </view>
+      <icon class="u-add"></icon>
     </view>
-    <text class="u-tlt">教育经历</text>
-    <view class="m-exp-list">
-      <view class="m-exp">
-        <text class="u-company">杭州电子科技大学</text>
-        <text class="u-job">学士 - 计算机科学与技术</text>
-        <text class="u-date">2014 年 9 月 - 2018 年 6 月</text>
+    <view class="m-edu-exp">
+      <text class="u-tlt">教育经历</text>
+      <view class="m-exp-list">
+        <view class="m-exp">
+          <icon class="u-edit"></icon>
+          <text class="u-company">杭州电子科技大学</text>
+          <text class="u-job">学士 - 计算机科学与技术</text>
+          <text class="u-date">2014 年 9 月 - 2018 年 6 月</text>
+        </view>
       </view>
+      <icon class="u-add"></icon>
     </view>
   </view>
+  <view class="m-card">
+    <view class="m-person-card">
+      <image src="/assets/demo_person1.png" class="u-bg"/>
+      <icon class="u-photo"></icon>
+    </view>
+  </view>
+  <Modal
+    visiable="{{editBase}}"
+    >
+    <text slot="title">编辑资料</text>
+    <view slot="content">
+      <form>
+        <view class="m-input-group">
+          <text class="u-modal-label">姓名</text>
+          <input type="text" class="u-modal-input" placeholder="请输入姓名, 如：张三"/>
+        </view>
+        <view class="m-input-group">
+          <text class="u-modal-label">公司</text>
+          <input type="text" class="u-modal-input" placeholder="请输入公司, 如：阿里巴巴"/>
+        </view>
+        <view class="m-input-group">
+          <text class="u-modal-label">职位</text>
+          <input type="text" class="u-modal-input" placeholder="请输入职位, 如：前端开发"/>
+        </view>
+        <view class="m-input-group">
+          <text class="u-modal-label">一句话介绍</text>
+          <input type="text" class="u-modal-input"/>
+        </view>
+      </form>
+    </view>
+  </Modal>
 </view>
-

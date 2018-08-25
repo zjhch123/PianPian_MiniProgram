@@ -1,0 +1,83 @@
+@keyframes opacityIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeDown {
+  from {
+    transform: translateX(-50%) translateY(-40rpx);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(-50%) translateY(0rpx);
+    opacity: 1;
+  }
+}
+
+.m-modal-enter .u-bg {
+  animation: opacityIn .4s;
+}
+.m-modal-enter .m-content {
+  animation: fadeDown .4s .5s;
+  animation-fill-mode: backwards;
+}
+.m-modal-leave .m-content {
+  transform: translate(-50%, -40rpx);
+  opacity: 0;
+  pointer-events: none;
+}
+.m-modal-leave .u-bg {
+  opacity: 0;
+}
+
+.u-bg {
+  transition: opacity .4s .5s;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,.6);
+  z-index: 50;
+}
+.m-content {
+  width: 550rpx;
+  padding: 40rpx;
+  background: white;
+  overflow: hidden;
+  left: 50%;
+  transform: translateX(-50%);
+  position: absolute;
+  z-index: 100;
+  border-radius: 8rpx;
+  opacity: 1;
+  transition: all .4s;
+}
+.u-title {
+  font-size: 32rpx;
+  text-align: left;
+  font-weight: bold;
+}
+.u-content {
+  margin: 20rpx 0;
+}
+.u-footer {
+  margin-top: 40rpx;
+  display: flex;
+}
+.u-footer .u-btn {
+  font-size: 28rpx;
+  width: 200rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  border-color: #d9d9d9;
+  color: #888;
+}
+.u-btn.u-success {
+  background: #007cb1;
+  color: white;
+  border-color: #007cb1;
+}

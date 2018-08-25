@@ -1,7 +1,7 @@
 // components/UserCard/UserCard.js
 Component({
   properties: {
-    person: Object,
+    person: Object
   },
   methods: {
   }

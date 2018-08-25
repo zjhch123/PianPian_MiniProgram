@@ -1,34 +1,38 @@
 <!--pages/user/user.wxml-->
 <view class="g-container g-user">
   <view class="m-header">
-    <image class="u-img" src="https://image.hduzplus.xyz/image/1a790d56-b465-464d-9798-dfcbd0fc35a9.png"/>
+    <image class="u-img" src="https://image.hduzplus.xyz/image/b4a9b43d-cf14-4019-8656-08732ce48230.png"/>
   </view>
   <view class="m-info">
     <text class="u-name">张佳皓</text>
-    <text class="u-job">前端工程师 网易杭州科技有限公司</text>
+    <text class="u-company">网易杭州科技有限公司</text>
+    <text class="u-job">前端工程师</text>
     <text class="u-desc">"每天叫醒自己的不是闹钟，而是梦想。"</text>
-    <view class="line"></view>
   </view>
   <view class="m-content">
-    <text class="u-tlt">工作经历</text>
-    <view class="m-exp-list">
-      <view class="m-exp">
-        <text class="u-company">网易杭州科技有限公司</text>
-        <text class="u-job">前端开发工程师</text>
-        <text class="u-date">2018 年 7 月 - 至今</text>
-      </view>
-      <view class="m-exp">
-        <text class="u-company">网易杭州科技有限公司</text>
-        <text class="u-job">前端开发实习生</text>
-        <text class="u-date">2017 年 3 月 - 2018 年 6 月</text>
+    <view class="m-work-exp">
+      <text class="u-tlt">工作经历</text>
+      <view class="m-exp-list">
+        <view class="m-exp">
+          <text class="u-company">网易杭州科技有限公司</text>
+          <text class="u-job">前端开发工程师</text>
+          <text class="u-date">2018 年 7 月 - 至今</text>
+        </view>
+        <view class="m-exp">
+          <text class="u-company">网易杭州科技有限公司</text>
+          <text class="u-job">前端开发实习生</text>
+          <text class="u-date">2017 年 3 月 - 2018 年 6 月</text>
+        </view>
       </view>
     </view>
-    <text class="u-tlt">教育经历</text>
-    <view class="m-exp-list">
-      <view class="m-exp">
-        <text class="u-company">杭州电子科技大学</text>
-        <text class="u-job">学士 - 计算机科学与技术</text>
-        <text class="u-date">2014 年 9 月 - 2018 年 6 月</text>
+    <view class="m-edu-exp">
+      <text class="u-tlt">教育经历</text>
+      <view class="m-exp-list">
+        <view class="m-exp">
+          <text class="u-company">杭州电子科技大学</text>
+          <text class="u-job">学士 - 计算机科学与技术</text>
+          <text class="u-date">2014 年 9 月 - 2018 年 6 月</text>
+        </view>
       </view>
     </view>
   </view>
