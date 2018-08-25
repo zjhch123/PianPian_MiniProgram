@@ -1,0 +1,20 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="u-title">
+    <text class="tlt">搜索</text>
+  </view>
+  <view class="m-searchBar">
+    <input 
+        class="u-input"
+        type="text" 
+        placeholder="输入姓名、公司、职业等进行搜索"/>
+  </view>
+  <view>
+    <view class="u-sub-title">
+      <text>推荐用户</text>
+    </view>
+    <view class="m-person-card-list">
+      <user-card wx:for="{{persons}}" wx:key="item.id" person="{{item}}"></user-card>
+    </view>
+  </view>
+</view>

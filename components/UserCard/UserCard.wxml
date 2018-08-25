@@ -1,0 +1,16 @@
+<navigator 
+  class="m-person-card" 
+  data-id="{{person.id}}" 
+  url="/pages/user/user?id={{person.id}}">
+  <image src="{{person.bgImage}}" class="u-bg"/>
+  <view class="u-content">
+    <view class="header">
+      <image class="img" src="{{person.header}}"/>
+    </view>
+    <view class="info">
+      <text class="name">{{person.name}}</text>
+      <text class="job">{{person.job}}</text>
+      <text class="company">{{person.company}}</text>
+    </view>
+  </view>
+</navigator>

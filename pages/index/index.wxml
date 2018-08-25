@@ -1,0 +1,9 @@
+<!--index.wxml-->
+<view class="g-container">
+  <view class="u-title">
+    <text class="tlt">收藏</text>
+  </view>
+  <view class="m-person-card-list">
+    <user-card wx:for="{{persons}}" wx:key="item.id" person="{{item}}"></user-card>
+  </view>
+</view>

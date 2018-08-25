@@ -1,0 +1,94 @@
+/* pages/user/user.wxss */
+.g-user {
+  padding: 35rpx 0 0;
+  box-sizing: border-box;
+}
+.m-header {
+  width: 230rpx;
+  height: 230rpx;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 10rpx 10rpx 40rpx rgba(0,0,0,.3);
+}
+.m-header .u-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.m-info {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 40rpx;
+  margin-top: 30rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+.m-info .u-name {
+  font-size: 60rpx;
+  font-weight: bold;
+  color: #353535;
+}
+.m-info .u-job {
+  font-size: 30rpx;
+  color: #353535;
+  margin: 12rpx 0;
+}
+.m-info .u-desc {
+  font-size: 24rpx;
+  margin: 3rpx 0;
+  color: #888;
+}
+.m-info .line {
+  height: 4rpx;
+  width: 100%;
+  background-color: #ececec;
+  margin: 50rpx 0 50rpx;
+}
+
+.m-content {
+  background: #f7f8f9;
+  padding: 50rpx 40rpx 0;
+  box-sizing: border-box;
+  width: 100%;
+}
+.m-content .u-tlt {
+  color: #555;
+  font-size: 30rpx;
+  font-weight: lighter;
+}
+.m-exp-list {
+  overflow: hidden;
+  padding-bottom: const(safe-area-inset-bottom);
+}
+.m-exp {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-left: 40rpx;
+  margin: 60rpx 0;
+}
+.m-exp::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2rpx;
+  background: #007cb1;
+}
+.m-exp .u-company {
+  font-size: 40rpx;
+  color: #555;
+}
+.m-exp .u-job {
+  color: #888;
+  font-size: 28rpx;
+  margin: 8rpx 0;
+}
+.m-exp .u-date {
+  color: #888;
+  font-size: 25rpx;
+}
