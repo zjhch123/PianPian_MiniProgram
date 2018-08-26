@@ -4,7 +4,8 @@
     "pages/index/index",
     "pages/search/search",
     "pages/user/user",
-    "pages/logs/logs"
+    "pages/logs/logs",
+    "pages/uploadCard/uploadCard"
   ],
   "tabBar": {
     "selectedColor": "#007cb1",

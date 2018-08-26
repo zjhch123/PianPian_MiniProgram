@@ -7,34 +7,56 @@ Component({
     multipleSlots: true
   },
   properties: {
-    visiable: Boolean,
+    visiable: {
+      type: Boolean,
+      value: false,
+      observer: function(newVal) {
+        if (newVal === true) {
+          this.showModal()
+        } else {
+          this.hideModal()
+        }
+      }
+    },
+    submit: String,
   },
   data: {
     top: 0,
-    leave: true,
+    leave: false,
+    show: false,
   },
   attached() {
-    const query = wx.createSelectorQuery()
-    query.selectViewport().scrollOffset()
-    query.exec((res) => {
-      const windowHeight = wx.getSystemInfoSync().windowHeight
-      this.setData({
-        top: 0.1 * windowHeight + res[0].scrollTop,
-        leave: false,
-      });
-    })
   },
   methods: {
+    showModal() {
+      const windowHeight = wx.getSystemInfoSync().windowHeight
+      const query = wx.createSelectorQuery()
+      query.selectViewport().scrollOffset()
+      query.exec((res) => {
+        this.setData({
+          show: true,
+          top: 0.06 * windowHeight + res[0].scrollTop
+        })
+      })
+    },
     hideModal() {
       this.setData({
         leave: true
       })
       setTimeout(() => {
         this.setData({
-          visiable: false,
+          show: false,
           leave: false
         });
-      }, 1000)
+      }, 900)
+    },
+    submitModal() {
+      this.triggerEvent(this.data.submit);
+    },
+    setVisiableFalse() {
+      this.setData({
+        visiable: false,
+      })
     },
   },
 })
