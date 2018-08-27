@@ -11,8 +11,12 @@
       <slot name="content"></slot>
     </view>
     <view class="u-footer">
-      <button class="u-btn" plain bind:tap="setVisiableFalse">取消</button>
-      <button class="u-btn u-success" plain bind:tap="submitModal">提交</button>
+      <button class="u-btn" plain bind:tap="setVisiableFalse" hover-class='u-btn-hover' hover-start-time='0' hover-stay-time='0'>
+        取消
+      </button>
+      <button class="u-btn u-success" plain bind:tap="submitModal">
+        提交
+      </button>
     </view>
   </view>
 </view>

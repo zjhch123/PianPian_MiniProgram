@@ -65,16 +65,22 @@
   margin: 20rpx 0;
 }
 .u-footer {
-  margin-top: 40rpx;
+  margin: 20rpx 0 0;
   display: flex;
+  justify-content: space-between;
 }
 .u-footer .u-btn {
   font-size: 28rpx;
-  width: 200rpx;
+  width: 240rpx;
   height: 60rpx;
   line-height: 60rpx;
   border-color: #d9d9d9;
   color: #888;
+  margin: 0;
+}
+.u-btn.u-btn-hover {
+  border-color: #007cb1;
+  color: #007cb1;
 }
 .u-btn.u-success {
   background: #007cb1;

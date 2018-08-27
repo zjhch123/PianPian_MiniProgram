@@ -5,6 +5,9 @@
 }
 .m-header-container {
   position: relative;
+  width: 230rpx;
+  height: 230rpx;
+  margin: auto;
 }
 .m-header {
   width: 230rpx;
@@ -41,6 +44,12 @@
   right: 40rpx;
   top: 0;
   background-size: 35rpx 35rpx;
+}
+.m-info .u-name,
+.m-info .u-company,
+.m-info .u-job,
+.m-info .u-desc, {
+  flex: 1;
 }
 .m-info .u-name {
   font-size: 60rpx;
@@ -131,7 +140,6 @@
   color: #888;
   font-size: 25rpx;
 }
-
 .m-card {
   padding: 20rpx;
   width: 100%;
@@ -176,7 +184,6 @@
   height: 80rpx;
   background-size: 60rpx 60rpx;
 }
-
 .m-input-group {
   margin-bottom: 8rpx;
 }
@@ -199,7 +206,36 @@
   transform: scale(.75);
   transform-origin: left center;
 }
-
+.m-noLogin {
+  text-align: center;
+  padding: 40rpx;
+}
+.u-login-text {
+  font-size: 32rpx;
+  text-align: center;
+  color: black;
+}
+.u-login-btn {
+  width: 400rpx;
+  margin: 20rpx auto;
+}
+.u-no-exp {
+  font-size: 32rpx;
+  text-align: center;
+  margin: 50rpx 0;
+  color: #888;
+}
+.u-delete-btn {
+  width: 100%;
+  height: 65rpx;
+  background: #e64340;
+  color: white;
+  font-size: 26rpx;
+  text-align: center;
+  line-height: 65rpx;
+  margin-top: 20rpx;
+  border-radius: 8rpx;
+}
 .u-photo { 
   background: transparent;
   width: 50rpx;
