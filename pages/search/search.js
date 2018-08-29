@@ -56,9 +56,6 @@ Page({
         })
       })
   },
-  onShareAppMessage: function () {
-  
-  },
   onPullDownRefresh() {
     wx.showLoading({ title: '获取数据', mask: true })
     this.getData().then(() => {

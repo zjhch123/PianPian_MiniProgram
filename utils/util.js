@@ -1,5 +1,5 @@
-const HOST = `https://test.hduzplus.xyz`
-const UPLOAD_HOST = `https://test.hduzplus.xyz`
+const HOST = `https://pianpian.hduzplus.xyz`
+const UPLOAD_HOST = `https://pianpian.hduzplus.xyz`
 
 const formatTime = date => {
   const year = date.getFullYear()
