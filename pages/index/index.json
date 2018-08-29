@@ -1,5 +1,7 @@
 {
   "usingComponents": {
     "user-card": "/components/UserCard/UserCard"
-  }
+  },
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 150
 }

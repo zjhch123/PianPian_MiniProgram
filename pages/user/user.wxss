@@ -3,6 +3,47 @@
   padding: 35rpx 0 0;
   box-sizing: border-box;
 }
+@keyframes scaleIn {
+  from {
+    transform: scale(.4)
+  }
+  to {
+    transform: scale(1)
+  }
+}
+.u-favorite {
+  position: absolute;
+  top: 20rpx;
+  left: 40rpx;
+  width: 40rpx;
+  height: 40rpx;
+  animation: scaleIn .4s;
+  animation-timing-function: cubic-bezier(0,.66,.62,1.63);
+}
+.u-share {
+  position: absolute;
+  top: 20rpx;
+  right: 40rpx;
+  width: 40rpx;
+  height: 40rpx;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  padding: 0;
+  background-color: transparent;
+  border-radius: 0;
+}
+.u-share::after {
+  border: none;
+}
+.u-share-hover .share {
+  transform: scale(.95);
+}
+.u-share .share {
+  width: 40rpx;
+  height: 40rpx;
+  display: block;
+  transition: transform .4s;
+}
 .m-header {
   width: 230rpx;
   height: 230rpx;
@@ -104,4 +145,29 @@
 .m-exp .u-date {
   color: #888;
   font-size: 25rpx;
+}
+.m-card {
+  padding: 20rpx;
+  width: 100%;
+  box-sizing: border-box; 
+}
+.m-card .u-sub-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+  display: block;
+}
+.m-person-card {
+  width: 710rpx;
+  height: 220rpx;
+  border-radius: 30rpx;
+  overflow: hidden;
+  position: relative;
+}
+.m-person-card .u-bg {
+  width: 710rpx;
+  height: 220rpx;
+  display: block;
+  border-radius: 30rpx;
+  overflow: hidden;
 }

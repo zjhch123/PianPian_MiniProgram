@@ -5,7 +5,7 @@
       <view class="m-header">
         <image 
           class="u-img" 
-          src="{{userInfo.UserBase.header || '/assets/default_header.png'}}"/>
+          src="{{!!userInfo.UserBase.header ? host + userInfo.UserBase.header : '/assets/default_header.png'}}"/>
       </view>
       <icon class="u-photo"></icon>
     </view>
@@ -34,11 +34,17 @@
             wx:key="{{item.id}}">
             <icon
               class="u-edit" 
-              bind:tap="showEditJob" 
+              bind:tap="showEditWorkExp" 
               data-id="{{index}}"/>
-            <text class="u-company">{{item.company}}</text>
-            <text class="u-job">{{item.job}}</text>
-            <text class="u-date">{{item.startTime}} - {{item.endTime}}</text>
+            <view class="u-company">
+              {{item.company}}
+            </view>
+            <view class="u-job">
+              {{item.job}}
+            </view>
+            <view class="u-date">
+              {{item.startTime}} - {{item.endTime}}
+            </view>
           </view>
         </view>
         <view 
@@ -46,7 +52,7 @@
           class="u-no-exp">
           <text>暂无工作经历, 点击按钮立即添加</text>
         </view>
-        <icon class="u-add" bind:tap="showAddJob"></icon>
+        <icon class="u-add" bind:tap="showAddWorkExp"></icon>
       </view>
       <view class="m-edu-exp">
         <text class="u-tlt">教育经历</text>
@@ -59,25 +65,33 @@
             wx:key="{{item.id}}">
             <icon 
               class="u-edit" 
-              bind:tap="showEditEdu"
-              data-id="{{item.id}}"/>
-            <text class="u-company">{{item.school}}</text>
-            <text class="u-job">{{item.degree}} - {{item.major}}</text>
-            <text class="u-date">{{item.startTime}} - {{item.endTime}}</text>
+              bind:tap="showEditEduExp"
+              data-id="{{index}}"/>
+            <view class="u-company">
+              {{item.school}}
+            </view>
+            <view class="u-job">
+              {{item.degree}} - {{item.major}}
+            </view>
+            <view class="u-date">
+              {{item.startTime}} - {{item.endTime}}
+            </view>
           </view>
         </view>
         <view 
           wx:if="{{userInfo.EduExps.length === 0}}"
           class="u-no-exp">
-          <text>暂无工作经历, 点击按钮立即添加</text>
+          <text>暂无教育经历, 点击按钮立即添加</text>
         </view>
-        <icon class="u-add" bind:tap="showEditEdu"></icon>
+        <icon class="u-add" bind:tap="showAddEduExp"></icon>
       </view>
     </view>
     <view class="m-card">
       <text class="u-sub-title">展示卡片</text>
       <view class="m-person-card" bind:tap="chooseCardImage">
-        <image src="/assets/demo_person1.png" class="u-bg"/>
+        <image 
+          src="{{!!userInfo.UserBase.card ? host + userInfo.UserBase.card : '/assets/demo_person1.png'}}" 
+          class="u-bg"/>
         <icon class="u-photo"></icon>
       </view>
     </view>
@@ -132,9 +146,9 @@
       </view>
     </Modal>
     <Modal
-      bind:editJobSubmit="onEditJobSubmit"
-      submit="editJobSubmit"
-      visiable="{{editJob}}">
+      bind:editWorkExpSubmit="onEditWorkExpSubmit"
+      submit="editWorkExpSubmit"
+      visiable="{{editWorkExp}}">
       <text slot="title">编辑工作经历</text>
       <view slot="content">
         <view class="m-input-group">
@@ -142,9 +156,9 @@
           <input 
             type="text" 
             class="u-modal-input" 
-            data-set="editJobModal.company"
+            data-set="editWorkExpModal.company"
             bindblur="inputValueChange"
-            value="{{editJobModal.company}}"
+            value="{{editWorkExpModal.company}}"
             placeholder="请输入公司, 如：阿里巴巴"/>
         </view>
         <view class="m-input-group">
@@ -152,9 +166,9 @@
           <input 
             type="text" 
             class="u-modal-input" 
-            data-set="editJobModal.job"
+            data-set="editWorkExpModal.job"
             bindblur="inputValueChange"
-            value="{{editJobModal.job}}"
+            value="{{editWorkExpModal.job}}"
             placeholder="请输入职位, 如：前端开发"/>
         </view>
         <view class="m-input-group">
@@ -163,77 +177,108 @@
             mode="date" 
             fields="month"
             end="{{dateLimit}}" 
-            data-set="editJobModal.startTime"
+            data-set="editWorkExpModal.startTime"
             bindchange="inputValueChange">
-            <text class="u-modal-input">{{editJobModal.startTime}}</text>
+            <text class="u-modal-input">{{editWorkExpModal.startTime}}</text>
           </picker>
         </view>
         <view class="m-input-group">
           <text class="u-modal-label">结束时间</text>
           <view class="u-modal-checkbox">
-          <checkbox-group bindchange="jobCheckboxChange">
+          <checkbox-group bindchange="workExpModalCheckboxChange">
             <checkbox 
               class="u-check" 
               value="至今" 
-              checked="{{editJobModal.checkbox}}"/>至今
+              checked="{{editWorkExpModal.checkbox}}"/>至今
           </checkbox-group>
           </view>
           <picker 
             mode="date" 
             fields="month" 
             end="{{dateLimit}}" 
-            data-set="editJobModal.endTime"
+            data-set="editWorkExpModal.endTime"
             bindchange="inputValueChange"
-            disabled="{{editJobModal.checkbox}}">
-            <text 
-              style="{{editJobModal.checkbox ? 'color: #888' : ''}}"
-              class="u-modal-input">{{editJobModal.endTime}}</text>
+            disabled="{{editWorkExpModal.checkbox}}">
+            <text style="{{editWorkExpModal.checkbox ? 'color: #888' : ''}}" class="u-modal-input">{{editWorkExpModal.endTime}}</text>
           </picker>
         </view>
-        <view class="u-delete-btn" wx:if="{{editJobModal.id !== -1}}">删除</view>
+        <view 
+          bind:tap="deleteWorkExp"
+          class="u-delete-btn" 
+          wx:if="{{editWorkExpModal.id !== -1}}">
+          删除
+        </view>
       </view>
     </Modal>
     <Modal
-      bind:editEduSubmit="onEditEduSubmit"
-      submit="editEduSubmit"
-      visiable="{{editEdu}}">
+      bind:editEduExpSubmit="onEditEduExpSubmit"
+      submit="editEduExpSubmit"
+      visiable="{{editEduExp}}">
       <text slot="title">编辑教育经历</text>
       <view slot="content">
         <view class="m-input-group">
           <text class="u-modal-label">学校</text>
-          <input type="text" class="u-modal-input" placeholder="请输入学校, 如：浙江大学"/>
+          <input 
+            type="text" 
+            class="u-modal-input" 
+            data-set="editEduExpModal.school"
+            bindblur="inputValueChange"
+            value="{{editEduExpModal.school}}"
+            placeholder="请输入学校, 如：浙江大学"/>
         </view>
         <view class="m-input-group">
           <text class="u-modal-label">学位</text>
-          <picker mode="selector" range="{{degree}}">
-            <text class="u-modal-input">学士</text>
+          <picker 
+            mode="selector" 
+            range="{{degree}}"
+            data-set="editEduExpModal.degree"
+            bindchange="degreeValueChange">
+            <text class="u-modal-input">{{editEduExpModal.degree}}</text>
           </picker>
         </view>
         <view class="m-input-group">
           <text class="u-modal-label">专业</text>
-          <input type="text" class="u-modal-input" placeholder="请输入专业, 如：计算机科学与技术"/>
+          <input 
+            type="text" 
+            class="u-modal-input" 
+            data-set="editEduExpModal.major"
+            bindblur="inputValueChange"
+            value="{{editEduExpModal.major}}"
+            placeholder="请输入专业, 如：计算机科学与技术"/>
         </view>
         <view class="m-input-group">
           <text class="u-modal-label">开始时间</text>
-          <picker mode="date" fields="month">
-            <text class="u-modal-input">2018 年 7 月</text>
+          <picker 
+            mode="date" 
+            fields="month"
+            end="{{dateLimit}}"
+            data-set="editEduExpModal.startTime"
+            bindchange="inputValueChange">
+            <text class="u-modal-input">{{editEduExpModal.startTime}}</text>
           </picker>
         </view>
         <view class="m-input-group">
           <text class="u-modal-label">结束时间</text>
           <view class="u-modal-checkbox">
-          <checkbox-group bindchange="eduCheckboxChange">
-            <checkbox class="u-check" value="至今" checked="{{EduModal.checkbox}}"/>至今
+          <checkbox-group bindchange="eduExpCheckboxChange">
+            <checkbox class="u-check" value="至今" checked="{{editEduExpModal.checkbox}}"/>至今
           </checkbox-group>
           </view>
           <picker 
             mode="date" 
             fields="month" 
-            end="{{dateLimit}}" 
-            disabled="{{EduModal.checkbox}}" 
-            style="color: {{EduModal.checkbox ? '#888' : 'black'}}">
-            <text class="u-modal-input">2018 年 7 月</text>
+            end="{{dateLimit}}"
+            data-set="editEduExpModal.endTime"
+            bindchange="inputValueChange"
+            disabled="{{editEduExpModal.checkbox}}" >
+            <text style="color: {{editEduExpModal.checkbox ? '#888' : 'black'}}" class="u-modal-input">{{editEduExpModal.endTime}}</text>
           </picker>
+        </view>
+        <view 
+          bind:tap="deleteEduExp"
+          class="u-delete-btn" 
+          wx:if="{{editEduExpModal.id !== -1}}">
+          删除
         </view>
       </view>
     </Modal>

@@ -1,4 +1,5 @@
-const HOST = `http://f0d3e41a.ngrok.io/`
+const HOST = `https://test.hduzplus.xyz`
+const UPLOAD_HOST = `https://test.hduzplus.xyz`
 
 const formatTime = date => {
   const year = date.getFullYear()
@@ -37,11 +38,37 @@ const request = ({url, header = {}, data, method = 'GET'}) => {
         success: (data) => resolve(data),
         fail: (e) => reject(e),
       });
-    });
+    })
   });
 }
 
+const upload = ({url, header = {}, filePath}) => {
+  return new Promise((resolve, reject) => {
+    wx.getStorage({
+      key: 'session',
+      success: (data) => resolve(data),
+      fail: () => resolve(''),
+    })
+  }).then(sessionId => {
+    return new Promise((resolve, reject) => {
+      wx.uploadFile({
+        url: `${UPLOAD_HOST}${url}`,
+        filePath,
+        name: 'file',
+        header: {
+          sessionId: sessionId.data,
+          ...header,
+        },
+        success: res => resolve(res),
+        fail: e => reject(e)
+      })
+    })
+  })
+}
+
 module.exports = {
+  HOST,
   formatTime: formatTime,
   request,
+  upload,
 }

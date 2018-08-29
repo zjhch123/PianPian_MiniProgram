@@ -1,39 +1,78 @@
 <!--pages/user/user.wxml-->
 <view class="g-container g-user">
+  <image src="/assets/not_favorite.png" class="u-favorite" wx:if="{{logined && isFavorite === 0}}" bind:tap="setFavorite"/>
+  <image src="/assets/favorited.png" class="u-favorite" wx:if="{{logined && isFavorite === 1}}" bind:tap="setUnFavorite"/>
+  <button 
+    class="u-share"
+    hover-class="u-share-hover" 
+    hover-start-time="0" 
+    hover-stay-time="0" 
+    open-type="share">
+    <image src="/assets/share.png" class="share"/>
+  </button>
   <view class="m-header">
-    <image class="u-img" src="https://image.hduzplus.xyz/image/b4a9b43d-cf14-4019-8656-08732ce48230.png"/>
+    <image 
+        class="u-img" 
+        src="{{!!userInfo.UserBase.header ? host + userInfo.UserBase.header : '/assets/default_header.png'}}"/>
   </view>
   <view class="m-info">
-    <text class="u-name">张佳皓</text>
-    <text class="u-company">网易杭州科技有限公司</text>
-    <text class="u-job">前端工程师</text>
-    <text class="u-desc">"每天叫醒自己的不是闹钟，而是梦想。"</text>
+    <view class="u-name">{{userInfo.UserBase.username || "新用户"}}</view>
+    <view class="u-company" wx:if="{{!!userInfo.UserBase.company}}">
+      {{userInfo.UserBase.company}}
+    </view>
+    <view class="u-job" wx:if="{{!!userInfo.UserBase.job}}">
+      {{userInfo.UserBase.job}}
+    </view>
+    <view class="u-desc" wx:if="{{!!userInfo.UserBase.desc}}">
+      {{userInfo.UserBase.desc}}
+    </view>
   </view>
   <view class="m-content">
-    <view class="m-work-exp">
+    <view class="m-work-exp" wx:if="{{userInfo.WorkExps.length > 0}}">
       <text class="u-tlt">工作经历</text>
       <view class="m-exp-list">
-        <view class="m-exp">
-          <text class="u-company">网易杭州科技有限公司</text>
-          <text class="u-job">前端开发工程师</text>
-          <text class="u-date">2018 年 7 月 - 至今</text>
-        </view>
-        <view class="m-exp">
-          <text class="u-company">网易杭州科技有限公司</text>
-          <text class="u-job">前端开发实习生</text>
-          <text class="u-date">2017 年 3 月 - 2018 年 6 月</text>
+        <view 
+          class="m-exp"
+          wx:for="{{userInfo.WorkExps}}" 
+          wx:key="{{item.id}}">
+          <view class="u-company">
+            {{item.company}}
+          </view>
+          <view class="u-job">
+            {{item.job}}
+          </view>
+          <view class="u-date">
+            {{item.startTime}} - {{item.endTime}}
+          </view>
         </view>
       </view>
     </view>
-    <view class="m-edu-exp">
+    <view class="m-edu-exp" wx:if="{{userInfo.EduExps.length > 0}}">
       <text class="u-tlt">教育经历</text>
       <view class="m-exp-list">
-        <view class="m-exp">
-          <text class="u-company">杭州电子科技大学</text>
-          <text class="u-job">学士 - 计算机科学与技术</text>
-          <text class="u-date">2014 年 9 月 - 2018 年 6 月</text>
+        <view 
+          class="m-exp"
+          wx:for="{{userInfo.EduExps}}"
+          wx:key="{{item.id}}">
+          <view class="u-company">
+            {{item.school}}
+          </view>
+          <view class="u-job">
+            {{item.degree}} - {{item.major}}
+          </view>
+          <view class="u-date">
+            {{item.startTime}} - {{item.endTime}}
+          </view>
         </view>
       </view>
+    </view>
+  </view>
+  <view class="m-card">
+    <text class="u-sub-title">展示卡片</text>
+    <view class="m-person-card">
+      <image 
+        src="{{!!userInfo.UserBase.card ? host + userInfo.UserBase.card : '/assets/demo_person1.png'}}" 
+        class="u-bg"/>
     </view>
   </view>
 </view>

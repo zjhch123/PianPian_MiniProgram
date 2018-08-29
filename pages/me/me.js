@@ -3,20 +3,18 @@ const utils = require('../../utils/util.js');
 const api = require('../../api/index.js');
 Page({
 
-  /**
-   * 页面的初始数据
-   */
   data: {
     logined: false,
     editBase: false,
-    editJob: false,
-    editEdu: false,
+    editWorkExp: false,
+    editEduExp: false,
     dateLimit: "0000-00-00",
+    host: utils.HOST,
     userInfo: {
       id: 0,
       userType: 0,
       UserBase: {
-
+        
       },
       WorkExps: [],
       EduExps: [],
@@ -32,7 +30,7 @@ Page({
       job: '',
       desc: '',
     },
-    editJobModal: {
+    editWorkExpModal: {
       id: -1,
       company: '',
       job: '',
@@ -40,7 +38,8 @@ Page({
       endTime: '',
       checkbox: false
     },
-    editEduModal: {
+    editEduExpModal: {
+      id: -1,
       school: '',
       major: '',
       degree: '',
@@ -58,6 +57,13 @@ Page({
     })
     this.launch()
   },
+  onShow() {
+    const needRefresh = wx.getStorageSync('needRefresh')
+    if (needRefresh) {
+      this.launch()
+      wx.removeStorageSync('needRefresh')
+    }
+  },
   launch() {
     wx.getStorage({
       key: 'session',
@@ -69,6 +75,93 @@ Page({
           logined: false
         })
       }
+    })
+  },
+  chooseHeaderImage() {
+    wx.chooseImage({
+      count: 1,
+      sizeType: ['compressed'],
+      success: (file) => {
+        wx.showLoading({ title: '上传中...', mask: true })
+        api.uploadHeader(file.tempFilePaths[0])
+          .then(res => {
+            wx.hideLoading()
+            return JSON.parse(res.data)
+          })
+          .then(res => {
+            switch (res.code) {
+              case 200:
+                this.setData({
+                  'userInfo.UserBase.header': res.content
+                })
+                break
+              case 504:
+                wx.showToast({ title: '图片太大, 请更换', icon: 'none' })
+                break
+              default:
+                wx.showToast({ title: '上传失败, 请检查', icon: 'none' })
+                break
+            }
+          })
+          .catch(e => {
+            wx.hideLoading()
+            wx.showToast({ title: '上传失败, 请检查', icon: 'none' })
+          })
+      }
+    })
+  },
+  chooseCardImage() {
+    wx.chooseImage({
+      count: 1,
+      sizeType: ['compressed'],
+      success: (res) => {
+        const tempFilePath = res.tempFilePaths[0]
+        wx.navigateTo({
+          url: `/pages/uploadCard/uploadCard?path=${encodeURIComponent(tempFilePath)}`
+        })
+      }
+    })
+  },
+  login() {
+    wx.setStorageSync('needRefresh', '1')
+    wx.showLoading({ title: "正在登录", mask: true })
+    wx.login({
+      success: (res) => {
+        const code = res.code
+        api.login(code).then(res => {
+          wx.hideLoading()
+          const session = res.data.content;
+          wx.setStorageSync('session', session);
+          this.getUserInfo();
+        }).catch(() => {
+          wx.hideLoading()
+        })
+      }
+    })
+  },
+  getUserInfo() {
+    wx.showLoading({ title: '获取数据', mask: true })
+    return api.getMyInfo().then(res => {
+      wx.hideLoading()
+      const code = res.data.code
+      switch (code) {
+        case 200:
+          this.setData({
+            userInfo: res.data.content,
+            logined: true,
+          })
+          break;
+        case 401:
+          this.setData({
+            logined: false,
+          })
+          break;
+      }
+    }).catch(() => {
+      wx.hideLoading()
+      this.setData({
+        logined: false
+      })
     })
   },
   showEditBase() {
@@ -83,23 +176,23 @@ Page({
       }
     });
   },
-  showEditJob(e) {
+  showEditWorkExp(e) {
     const index = e.target.dataset.id
-    const job = this.data.userInfo.WorkExps[index]
+    const workExp = this.data.userInfo.WorkExps[index]
     this.setData({
-      editJob: true,
-      editJobModal: {
-        ...job,
-        startTime: job.startTime.replace(/\s|月/g, '').replace('年', '-'),
-        endTime: job.endTime.replace(/\s|月/g, '').replace('年', '-'),
-        checkbox: job.endTime === '至今'
+      editWorkExp: true,
+      editWorkExpModal: {
+        ...workExp,
+        startTime: workExp.startTime.replace(/\s|月/g, '').replace('年', '-'),
+        endTime: workExp.endTime.replace(/\s|月/g, '').replace('年', '-'),
+        checkbox: workExp.endTime === '至今'
       }
     });
   },
-  showAddJob() {
+  showAddWorkExp() {
     this.setData({
-      editJob: true,
-      editJobModal: {
+      editWorkExp: true,
+      editWorkExpModal: {
         id: -1,
         company: '',
         job: '',
@@ -109,36 +202,101 @@ Page({
       }
     });
   },
-  showEditEdu() {
+  showEditEduExp(e) {
+    const index = e.target.dataset.id
+    const eduExp = this.data.userInfo.EduExps[index]
     this.setData({
-      editEdu: true,
+      editEduExp: true,
+      editEduExpModal: {
+        ...eduExp,
+        startTime: eduExp.startTime.replace(/\s|月/g, '').replace('年', '-'),
+        endTime: eduExp.endTime.replace(/\s|月/g, '').replace('年', '-'),
+        checkbox: eduExp.endTime === '至今'
+      }
     });
   },
-  jobCheckboxChange(val) {
+  showAddEduExp() {
+    this.setData({
+      editEduExp: true,
+      editEduExpModal: {
+        id: -1,
+        school: '',
+        major: '',
+        degree: '',
+        startTime: '',
+        endTime: '',
+        checkbox: false
+      }
+    });
+  },
+  workExpModalCheckboxChange(val) {
     let data = false
     if (val.detail.value.length > 0) {
       data = true
     }
     this.setData({
-      editJobModal: {
-        ...this.data.editJobModal,
+      editWorkExpModal: {
+        ...this.data.editWorkExpModal,
         checkbox: data,
       }
     })
   },
-  eduCheckboxChange(val) {
+  eduExpCheckboxChange(val) {
     let data = false
     if (val.detail.value.length > 0) {
       data = true
     }
     this.setData({
-      editEduModal: {
-        ...this.data.editEduModal,
+      editEduExpModal: {
+        ...this.data.editEduExpModal,
         checkbox: data,
       }
     })
   },
-  onEditBaseSubmit(e) {
+  deleteExp(expType) {
+    expType = expType[0].toUpperCase() + expType.slice(1)
+    const modalName = `edit${expType}Exp`
+    const apiName = `delete${expType}Exp`
+    const deleteId = this.data[`edit${expType}ExpModal`].id
+    wx.showLoading({ title: '删除中', mask: true })
+    api[apiName](deleteId)
+      .then(res => {
+        wx.hideLoading()
+        if (res.data.code === 200) {
+          wx.showToast({ title: '删除成功', icon: 'success' })
+          this.getUserInfo()
+        } else {
+          wx.showToast({ title: '删除失败, 请检查', icon: 'none' })
+        }
+        this.setData({
+          [modalName]: false
+        })
+      }).catch(() => {
+        wx.showToast({ title: '删除失败, 请检查', icon: 'none' })
+      })
+  },
+  editExp(expType) {
+    expType = expType[0].toUpperCase() + expType.slice(1)
+    const modalName = `edit${expType}Exp`
+    const apiName = `edit${expType}Exp`
+    const editExp = this.data[`edit${expType}ExpModal`]
+    wx.showLoading({ title: '提交中', mask: true })
+    api[apiName](editExp).then((res) => {
+      wx.hideLoading()
+      if (res.data.code === 200) {
+        wx.showToast({ title: '操作成功', icon: 'success' })
+        this.getUserInfo()
+      } else {
+        wx.showToast({ title: '操作失败, 请检查', icon: 'none' })
+      }
+      this.setData({
+        [modalName]: false
+      })
+    }).catch(() => {
+      wx.showToast({ title: '操作失败, 请检查', icon: 'none' })
+    })
+  },
+  onEditBaseSubmit() {
     wx.showLoading({title: '提交中', mask: true })
     api.editUserBase({
       ...this.data.editBaseModal,
@@ -159,86 +317,26 @@ Page({
       this.setData({
         editBase: false,
       })
-    })
-  },
-  onEditJobSubmit() {
-    wx.showLoading({ title: '提交中', mask: true })
-    api.editJob(this.data.editJobModal)
-      .then(res => {
-        wx.hideLoading()
-        if (res.data.code === 200) {
-          wx.showToast({ title: '修改成功', icon: 'success' })
-          this.getUserInfo()
-        } else {
-          wx.showToast({ title: '修改失败, 请检查', icon: 'none' })
-        }
-        this.setData({
-          editJob: false
-        })
-      })
-  },
-  chooseHeaderImage() {
-    wx.chooseImage({
-      count: 1,
-      sizeType: 'compressed',
-      success: (res) => {
-        console.log(res)
-      }
-    })
-  },
-  chooseCardImage() {
-    wx.chooseImage({
-      count: 1,
-      sizeType: 'compressed',
-      success: (res) => {
-        const tempFilePath = res.tempFilePaths[0]
-        wx.navigateTo({
-          url: `/pages/uploadCard/uploadCard?path=${encodeURIComponent(tempFilePath)}`
-        })
-      }
-    })
-  },
-  login() {
-    wx.showLoading({
-      title: "正在登录",
-      mask: true,
-    })
-    wx.login({
-      success: (res) => {
-        const code = res.code
-        api.login(code).then(res => {
-          const session = res.data.content;
-          wx.setStorageSync('session', session);
-          this.getUserInfo();
-        }).catch(() => {
-          wx.hideLoading()
-        })
-      }
-    })
-  },
-  getUserInfo() {
-    wx.showLoading({
-      title: '获取数据',
-      mask: true,
-    })
-    api.getMyInfo().then(res => {
-      wx.hideLoading()
-      const code = res.data.code
-      switch (code) {
-        case 200:
-          this.setData({
-            userInfo: res.data.content,
-            logined: true,
-          })
-          break;
-        case 401:
-          this.setData({
-            logined: false,
-          })
-          break;
-      }
     }).catch(() => {
-      wx.hideLoading()
+      wx.showToast({ title: '修改失败, 请检查', icon: 'none' })
+    })
+  },
+  onEditWorkExpSubmit() {
+    this.editExp('Work')
+  },
+  deleteWorkExp() {
+    this.deleteExp('Work')
+  },
+  onEditEduExpSubmit() {
+    this.editExp('Edu')
+  },
+  deleteEduExp() {
+    this.deleteExp('Edu')
+  },
+
+  onPullDownRefresh() {
+    this.getUserInfo().then(() => {
+      wx.stopPullDownRefresh()
     })
   },
   inputValueChange(e) {
@@ -246,6 +344,13 @@ Page({
     const value = e.detail.value
     this.setData({
       [targetKey]: value
+    })
+  },
+  degreeValueChange(e) {
+    const targetKey = e.target.dataset.set
+    const value = e.detail.value
+    this.setData({
+      [targetKey]: this.data.degree[value]
     })
   }
 })

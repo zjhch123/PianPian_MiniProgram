@@ -130,6 +130,7 @@
 .m-exp .u-company {
   font-size: 40rpx;
   color: #555;
+  max-width: 565rpx;
 }
 .m-exp .u-job {
   color: #888;
@@ -209,6 +210,7 @@
 .m-noLogin {
   text-align: center;
   padding: 40rpx;
+  margin-top: 76rpx;
 }
 .u-login-text {
   font-size: 32rpx;

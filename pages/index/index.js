@@ -1,40 +1,69 @@
 //index.js
-//获取应用实例
+const api = require('../../api/index.js')
 Page({
   data: {
-    persons: [
-      {
-        id: 1,
-        bgImage: '/assets/demo_person1.png',
-        name: '张佳皓',
-        job: '前端开发工程师',
-        company: '网易杭州科技有限公司',
-        header: 'https://image.hduzplus.xyz/image/b4a9b43d-cf14-4019-8656-08732ce48230.png'
-      },
-      {
-        id: 2,
-        bgImage: '/assets/demo_person2.png',
-        name: '蒋明慧',
-        job: '产品经理',
-        company: '华数数字电视传媒集团有限公司',
-        header: 'https://image.hduzplus.xyz/image/f55b4d50-e6fd-4b86-a7c3-fc9b528f3d19.png'
-      },
-      {
-        id: 3,
-        bgImage: '/assets/demo_person3.png',
-        name: '杨鹏飞',
-        job: '安全运维工程师',
-        company: '华为杭州研究院',
-        header: 'https://image.hduzplus.xyz/image/c61e3732-8b8f-4b2d-9ae4-d205b174b825.png'
-      },
-      {
-        id: 4,
-        bgImage: '/assets/demo_person4.png',
-        name: '斯鹏超',
-        job: '产品经理',
-        company: '中国联合网络通信股份有限公司',
-        header: 'https://image.hduzplus.xyz/image/7424541c-8b0a-43a9-a9b8-654eba9dd396.png'
-      }
-    ]
+    persons: [],
+    page: 1,
+    totalPage: 1,
+    noLogin: false,
   },
+  onLoad() {
+    this.launch()
+  },
+  onShow() {
+    const needRefresh = wx.getStorageSync('needRefresh')
+    if (needRefresh) {
+      this.launch()
+      wx.removeStorageSync('needRefresh')
+    }
+  },
+  launch() {
+    return this.getData(1, true)
+  },
+  login() {
+    wx.setStorageSync('needRefresh', '1')
+    wx.showLoading({ title: "正在登录", mask: true })
+    wx.login({
+      success: (res) => {
+        const code = res.code
+        api.login(code).then(res => {
+          wx.hideLoading()
+          if (res.data.code !== 200) { return }
+          const session = res.data.content;
+          wx.setStorageSync('session', session);
+          this.launch();
+        }).catch(() => {
+          wx.hideLoading()
+        })
+      }
+    })
+  },
+  getData(page, empty = false) {
+    return api.getFavorite(page)
+      .then(res => res.data)
+      .then(res => {
+        if (res.code === 401) {
+          this.setData({ noLogin: true })
+          return
+        }
+        this.setData({
+          noLogin: false,
+          persons: empty ? res.content.list : this.data.persons.concat(res.content.list),
+          totalPage: res.content.totalPage,
+          page,
+        })
+      })
+  },
+  onPullDownRefresh() {
+    wx.showLoading({ title: '获取数据', mask: true })
+    this.launch().then(() => {
+      wx.hideLoading()
+      wx.stopPullDownRefresh()
+    })
+  },
+  onReachBottom() {
+    if (this.data.page === this.data.totalPage) { return }
+    const nextPage = this.data.page + 1
+    this.getData(nextPage)
+  }
 });

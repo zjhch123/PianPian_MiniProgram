@@ -5,8 +5,11 @@
   </view>
   <view class="m-searchBar">
     <input 
+        bindconfirm="confirmHandler"
+        confirm-type="search"
         class="u-input"
         type="text" 
+        value="{{q}}"
         placeholder="输入姓名、公司、职业等进行搜索"/>
   </view>
   <view>

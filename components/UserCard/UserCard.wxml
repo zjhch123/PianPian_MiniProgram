@@ -1,16 +1,20 @@
 <navigator 
   class="m-person-card" 
   data-id="{{person.id}}" 
-  url="/pages/user/user?id={{person.id}}">
-  <image src="{{person.bgImage}}" class="u-bg"/>
+  url="/pages/user/user?id={{person.userId}}">
+  <image 
+    src="{{person.card ? host + person.card : '/assets/demo_person1.png'}}" 
+    class="u-bg"/>
   <view class="u-content">
     <view class="header">
-      <image class="img" src="{{person.header}}"/>
+      <image 
+        class="img" 
+        src="{{person.header ? host + person.header : '/assets/default_header.png'}}"/>
     </view>
     <view class="info">
-      <text class="name">{{person.name}}</text>
-      <text class="job">{{person.job}}</text>
-      <text class="company">{{person.company}}</text>
+      <text class="name">{{person.username || '新用户'}}</text>
+      <text class="job" wx:if="{{!!person.job}}">{{person.job}}</text>
+      <text class="company" wx:if="{{!!person.company}}">{{person.company}}</text>
     </view>
   </view>
 </navigator>
