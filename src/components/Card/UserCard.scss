@@ -1,0 +1,35 @@
+.c-user-card {
+  width: 710rpx;
+  height: 220rpx;
+  margin: auto;
+  display: block;
+  position: relative;
+  border-radius: 30rpx;
+  overflow: hidden;
+  .u-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    background: rgba(0, 0, 0, .4);
+    color: white;
+    align-items: center;
+    padding: 0 40rpx;
+    box-sizing: border-box;
+  }
+  .u-info {
+    display: flex;
+    flex-direction: column;
+    margin-left: 40rpx;
+    flex: 1;
+    .name {
+      font-size: 45rpx;
+      font-weight: bold;
+    }
+    .job, .company {
+      font-size: 24rpx;
+    }
+  }
+}
