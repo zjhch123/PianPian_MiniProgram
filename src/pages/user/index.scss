@@ -5,48 +5,7 @@
     justify-content: center;
   }
   .m-info {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 0 40rpx;
-    margin-top: 30rpx;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    position: relative;
-    color: #353535;
-    &:after {
-      content: '';
-      height: 4rpx;
-      width: 100%;
-      background-color: #ececec;
-      margin: 50rpx 0 50rpx;
-    }
-    .u-name {
-      font-size: 60rpx;
-      font-weight: bold;
-    }
-    .u-company {
-      margin-top: 8rpx;
-    }
-    .u-job {
-      margin-bottom: 8rpx;
-    }
-    .u-job, .u-company {
-      font-size: 30rpx;
-      color: #353535;
-      display: block;
-      height: 50rpx;
-      line-height: 50rpx;
-      min-height: 0;
-    }
-    .u-desc {
-      font-size: 24rpx;
-      margin: 0 auto;
-      color: #888;
-      height: 36rpx;
-      line-height: 1.5;
-    }
+    
   }
   .m-content {
     background: #f7f8f9;
