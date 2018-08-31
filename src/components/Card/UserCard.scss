@@ -1,11 +1,10 @@
 .c-user-card {
-  width: 710rpx;
-  height: 220rpx;
-  margin: auto;
+  width: 670rpx;
+  height: 207rpx;
+  margin: 10rpx auto 40rpx;
   display: block;
   position: relative;
   border-radius: 30rpx;
-  overflow: hidden;
   .u-content {
     position: absolute;
     top: 0;
@@ -14,6 +13,8 @@
     bottom: 0;
     display: flex;
     background: rgba(0, 0, 0, .4);
+    border-radius: 30rpx;
+    overflow: hidden;
     color: white;
     align-items: center;
     padding: 0 40rpx;

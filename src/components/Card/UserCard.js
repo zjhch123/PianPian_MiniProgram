@@ -2,13 +2,15 @@ import Taro, { Component } from '@tarojs/taro'
 import { View, Navigator, Text } from '@tarojs/components'
 import Card from './Card.js'
 import { SmallHeader } from '../UserHeader'
+import './UserCard.scss'
 
 export default class UserCard extends Component {
 
   render() {
+    const imagePath = this.props.imagePath
     return (
       <Navigator url='/pages/user/user?id=1' className='c-user-card'>
-        <Card />
+        <Card imagePath={imagePath} />
         <View className='u-content'>
           <SmallHeader className='u-header' />
           <View className='u-info'>

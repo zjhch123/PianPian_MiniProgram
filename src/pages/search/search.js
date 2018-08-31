@@ -1,30 +1,10 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, Button } from '@tarojs/components'
-import { connect } from '@tarojs/redux'
-
-import { add, minus, asyncAdd } from '../../actions/counter'
-
+import { View, Input } from '@tarojs/components'
+import { Title, SubTitle } from '../../components/Title'
+import { UserCard } from '../../components/Card'
 import './index.scss'
 
-
-@connect(({ counter }) => ({
-  counter
-}), (dispatch) => ({
-  add () {
-    dispatch(add())
-  },
-  dec () {
-    dispatch(minus())
-  },
-  asyncAdd () {
-    dispatch(asyncAdd())
-  }
-}))
-class Index extends Component {
-
-  config = {
-  }
-
+class Search extends Component {
   componentWillReceiveProps (nextProps) {
     console.log(this.props, nextProps)
   }
@@ -37,15 +17,36 @@ class Index extends Component {
 
   render () {
     return (
-      <View className='index'>
-        <Button className='add_btn' onClick={this.props.add}>+</Button>
-        <Button className='dec_btn' onClick={this.props.dec}>-</Button>
-        <Button className='dec_btn' onClick={this.props.asyncAdd}>async</Button>
-        <View>{this.props.counter.num}</View>
-        <View>Hello, World</View>
+      <View className='p-search g-padding-container'>
+        <Title text='搜索' />
+        <View className='m-input'>
+          <Input 
+            confirm-type='search'
+            class='u-input'
+            type='text'
+            placeholder='输入姓名、公司、职业等进行搜索'
+          />
+        </View>
+        <View>
+          <SubTitle text='推荐用户' />
+          <View className='m-list'>
+            <UserCard />
+            <UserCard />
+            <UserCard />
+            <UserCard />
+            <UserCard />
+          </View>
+        </View>
+        {/* <View className='m-list'>
+          <UserCard />
+          <UserCard />
+          <UserCard />
+          <UserCard />
+          <UserCard />
+        </View> */}
       </View>
     )
   }
 }
 
-export default Index
+export default Search

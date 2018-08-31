@@ -1,0 +1,29 @@
+.c-eduExp {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-left: 40rpx;
+  margin: 60rpx 0;
+  &:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2rpx;
+    background: #007cb1;
+  }
+  .u-school {
+    font-size: 40rpx;
+    color: #555;
+  }
+  .u-content {
+    color: #888;
+    font-size: 28rpx;
+    margin: 8rpx 0;
+  }
+  .u-date {
+    color: #888;
+    font-size: 25rpx;
+  }
+}

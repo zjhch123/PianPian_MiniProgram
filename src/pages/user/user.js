@@ -6,7 +6,7 @@ import { WorkExp, EduExp } from '../../components/Experience'
 import { Card } from '../../components/Card'
 import './index.scss'
 
-class Me extends Component {
+class User extends Component {
 
   config = {
   }
@@ -23,7 +23,7 @@ class Me extends Component {
 
   render () {
     return (
-      <View className='p-me'>
+      <View className='p-user'>
         <View className='m-header'>
           <LargeHeader headerPath='https://image.hduzplus.xyz/image/1a790d56-b465-464d-9798-dfcbd0fc35a9.png' />
         </View>
@@ -56,4 +56,4 @@ class Me extends Component {
   }
 }
 
-export default Me
+export default User

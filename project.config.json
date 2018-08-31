@@ -2,7 +2,7 @@
 	"miniprogramRoot": "./dist",
 	"projectname": "DevCard2",
 	"description": "DevCard2",
-	"appid": "touristappid",
+	"appid": "wx88ac33e94b573d2b",
 	"setting": {
 		"urlCheck": true,
 		"es6": false,
