@@ -1,6 +1,5 @@
 import Taro, { Component } from '@tarojs/taro'
 import Header from './Header.js'
-import './LargeHeader.scss'
 
 export default class SmallHeader extends Component {
 

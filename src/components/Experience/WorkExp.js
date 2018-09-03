@@ -6,26 +6,24 @@ export default class WorkExp extends Component {
 
   static defaultProps = {
     editable: null,
+    info: {},
     onClick: () => {}
   }
 
-  handleClickEdit(e) {
-    this.props.onClick(e)
+  handleClickEdit() {
+    this.props.onClick(this.props.info)
   }
 
   render() {
+    const {
+      info
+    } = this.props
     return (
       <View className='c-workExp'>
         { !!this.props.editable ? <Icon className='u-edit' onClick={this.handleClickEdit.bind(this)} /> : '' }
-        <View className='u-company'>
-          网易杭州科技有限公司
-        </View>
-        <View className='u-job'>
-          前端开发工程师
-        </View>
-        <View className='u-date'>
-          2018 年 8 月 - 至今
-        </View>
+        <View className='u-company'>{info.company}</View>
+        <View className='u-job'>{info.job}</View>
+        <View className='u-date'>{info.startTime} - {info.endTime}</View>
       </View>
     )
   }

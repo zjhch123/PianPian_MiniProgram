@@ -1,0 +1,37 @@
+.c-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,.6);
+  z-index: 99;
+  opacity: 0;
+  pointer-events: none;
+  transition: all .4s .3s;
+  &.f-visible {
+    transition: all .4s;
+    opacity: 1;
+    pointer-events: auto;
+    .m-content {
+      transition: all .4s .3s;
+      opacity: 1;
+      transform: translateX(-50%);
+    }
+  }
+  .m-content {
+    width: 550rpx;
+    padding: 40rpx;
+    background: white;
+    overflow: hidden;
+    top: 45rpx;
+    left: 50%;
+    position: absolute;
+    z-index: 100;
+    border-radius: 8rpx;
+    opacity: 0;
+    transition: all .4s;
+    transform: translateX(-50%) translateY(-40rpx);
+    overscroll-behavior: none;
+  }
+}

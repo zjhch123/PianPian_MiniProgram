@@ -14,8 +14,8 @@ class App extends Component {
   config = {
     pages: [
       'pages/me/me',
-      "pages/search/search",
       'pages/index/index',
+      "pages/search/search",
       "pages/user/user",
     ],
     tabBar: {

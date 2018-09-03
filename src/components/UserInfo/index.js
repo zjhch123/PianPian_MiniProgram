@@ -1,16 +1,31 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View, Text, Icon } from '@tarojs/components'
 import './index.scss'
 
 export default class UserInfo extends Component {
   
+  static defaultProps = {
+    editable: false,
+    info: {},
+    onClick: () => {}
+  }
+
+  handleClickEdit() {
+    this.props.onClick()
+  }
+
   render() {
+    const {
+      editable,
+      info
+    } = this.props
     return (
       <View className='c-userInfo'>
-        <Text className='u-name'>张佳皓</Text>
-        <Text className='u-company'>网易杭州科技有限公司</Text>
-        <Text className='u-job'>前端开发工程师</Text>
-        <Text className='u-desc'>每天叫醒自己的不是闹钟, 而是梦想。</Text>
+        { !!editable ? <Icon className='u-edit' onClick={this.handleClickEdit.bind(this)} /> : ''}
+        <Text className='u-name'>{info.username || '新用户'}</Text>
+        { info.company && <Text className='u-company'>{info.company}</Text> }
+        { info.job && <Text className='u-job'>{info.job}</Text> }
+        { info.desc && <Text className='u-desc'>{info.desc}</Text> }
       </View>
     )
   }
