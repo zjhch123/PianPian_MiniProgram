@@ -1,6 +1,7 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text, Input, Button, Form } from '@tarojs/components'
 import Modal from './Modal'
+import utils from '../../utils'
 import './EditModal.scss'
 
 export default class EditInfo extends Component {
@@ -16,7 +17,18 @@ export default class EditInfo extends Component {
   }
 
   clickSubmit(e) {
-    this.props.onSubmit(e.detail.value)
+    const submit = e.detail.value
+    if (this.validate(submit)) {
+      this.props.onSubmit(submit)
+    }
+  }
+
+  validate(data) {
+    if (data.username.trim() === '') {
+      utils.showError('请输入姓名。')
+      return false
+    }
+    return true
   }
 
   render() {

@@ -99,6 +99,7 @@ export default {
       url: '/api/user/me/getFavorite',
       data: {
         page,
+        count: 4,
       }
     })
   }

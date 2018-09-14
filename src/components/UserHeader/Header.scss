@@ -2,8 +2,10 @@
   display: block;
   position: relative;
   .u-img {
+    will-change: transform;
     border-radius: 50%;
     margin: auto;
+    display: block;
   }
   .u-photo {
     position: absolute;

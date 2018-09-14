@@ -1,12 +1,12 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, Icon, Text } from '@tarojs/components'
+import { View, Icon } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 import { LargeHeader } from '../../components/UserHeader'
+import Authorized from '../../components/Authorized'
 import UserInfo from '../../components/UserInfo'
-import { LightTitle, SubTitle } from '../../components/Title'
+import { LightTitle, SubTitle, NoExpTitle } from '../../components/Title'
 import { WorkExp, EduExp } from '../../components/Experience'
 import { Card } from '../../components/Card'
-import NoLogin from '../../components/NoLogin'
 import { EditInfo, EditWork, EditEdu } from '../../components/Modal'
 import api from '../../api'
 
@@ -16,13 +16,21 @@ import './index.scss'
 
 
 @connect(({ user }) => ({
-  user
+  userInfo: user.userInfo
 }), (dispatch) => ({
   getMyInfo() {
     dispatch(getMyInfo())
   }
 }))
 class Me extends Component {
+
+  static config = {
+    enablePullDownRefresh: true,
+  }
+
+  static defaultProps = {
+    userInfo: {}
+  }
 
   constructor() {
     this.state = {
@@ -35,22 +43,29 @@ class Me extends Component {
     }
   }
 
-  componentDidMount() {
-    this.props.getMyInfo()
-  }
-
-  componentWillUnmount () { }
-
-  componentDidShow () { }
-
-  componentDidHide () { }
-
-  handleClickHeader(e) {
-    console.log(e)
+  async handleClickHeader() {
+    const file = await Taro.chooseImage({
+      count: 1,
+      sizeType: ['compressed'],
+    })
+    const result = await api.uploadHeader(file.tempFilePaths[0])
+    const data = JSON.parse(result.data)
+    if (data.code === 200) {
+      this.props.getMyInfo()
+      return
+    }
+    switch (data.code) {
+      case 504:
+        Taro.showToast({ title: '图片太大, 请更换', icon: 'none' })
+        break
+      default:
+        Taro.showToast({ title: '上传失败, 请检查', icon: 'none' })
+        break
+    }
   }
 
   handleClickEditInfo() {
-    const userInfo = this.props.user.userInfo.UserBase
+    const userInfo = this.props.userInfo.UserBase
     this.setState({
       editInfo: true,
       editInfoModal: {
@@ -60,19 +75,13 @@ class Me extends Component {
     })
   }
 
-  hideEditInfo() {
-    this.setState({
-      editInfo: false
-    })
-  }
-
   async submitEditInfo(userInfo) {
     const result = await api.editUserBase(userInfo)
     if (result.data.code !== 200) {
       return
     }
     this.props.getMyInfo()
-    this.hideEditInfo()
+    this.hideModal()
   }
 
   handleEditWorkExp(info) {
@@ -97,19 +106,13 @@ class Me extends Component {
     })
   }
 
-  hideEditWorkExp() {
-    this.setState({
-      editWork: false
-    })
-  }
-
   async submitEditWorkExp(workExp) {
     const result = await api.editWorkExp(workExp)
     if (result.data.code !== 200) {
       return
     }
     this.props.getMyInfo()
-    this.hideEditWorkExp()
+    this.hideModal()
   }
 
   async deleteWorkExp(id) {
@@ -118,7 +121,7 @@ class Me extends Component {
       return
     }
     this.props.getMyInfo()
-    this.hideEditWorkExp()
+    this.hideModal()
   }
 
   handleEditEduExp(info) {
@@ -150,7 +153,7 @@ class Me extends Component {
       return
     }
     this.props.getMyInfo()
-    this.hideEditEduExp()
+    this.hideModal()
   }
 
   async deleteEduExp(id) {
@@ -159,17 +162,43 @@ class Me extends Component {
       return
     }
     this.props.getMyInfo()
-    this.hideEditEduExp()
+    this.hideModal()
   }
 
-  hideEditEduExp() {
+  hideModal() {
     this.setState({
-      editEdu: false
+      editEdu: false,
+      editInfo: false,
+      editWork: false
     })
   }
 
-  handleCardEdit(e) {
-    console.log(e)
+  handleCardEdit() {
+    Taro.chooseImage({
+      count: 1,
+      sizeType: ['compressed'],
+      success: (res) => {
+        const tempFilePath = res.tempFilePaths[0]
+        Taro.navigateTo({
+          url: `/pages/uploadCard/uploadCard?path=${encodeURIComponent(tempFilePath)}`
+        })
+      }
+    })
+  }
+
+  async onPullDownRefresh() {
+    Taro.showLoading({ title: '获取数据', mask: true })
+    try {
+      await this.props.getMyInfo()
+    } catch (e) {}
+    Taro.stopPullDownRefresh()
+    Taro.hideLoading()
+  }
+
+  onShareAppMessage() {
+    return {
+      title: `我在用片片, 这是我的名片`
+    }
   }
 
   render () {
@@ -177,10 +206,10 @@ class Me extends Component {
       UserBase: userBase,
       WorkExps: workExps,
       EduExps: eduExps
-    } = this.props.user.userInfo
+    } = this.props.userInfo
     return (
-      <View className={`p-me ${this.props.user.isLogin ? '' : 'f-noLogin'}}`}>
-        <View className='f-isLogin'>
+      <Authorized>
+        <View className='p-me'>
           <View className='m-header'>
             <LargeHeader
               onClick={this.handleClickHeader.bind(this)}
@@ -208,7 +237,7 @@ class Me extends Component {
                   />
                 ))
               }
-              { workExps.length === 0 && <View className='u-no-exp'><Text>暂无工作经历, 点击按钮立即添加</Text></View>}
+              { workExps.length === 0 && <NoExpTitle text='暂无工作经历, 点击按钮立即添加' />}
               <Icon className='u-add' onClick={this.addWorkExp.bind(this)} />
             </View>
             <LightTitle text='教育经历' />
@@ -223,35 +252,32 @@ class Me extends Component {
                   />
                 ))
               }
-              { eduExps.length === 0 && <View className='u-no-exp'><Text>暂无教育经历, 点击按钮立即添加</Text></View>}
+              { eduExps.length === 0 && <NoExpTitle text='暂无教育经历, 点击按钮立即添加' />}
               <Icon className='u-add' onClick={this.addEduExp.bind(this)} />
             </View>
           </View>
           <View className='m-card'>
-          <SubTitle text='展示卡片' />
-          <View className='u-card'>
+            <SubTitle text='展示卡片' />
+            <View className='u-card'>
             <Card 
               editable='true'
+              imagePath={userBase.card}
               onClick={this.handleCardEdit.bind(this)}
             />
           </View>
+          </View>
         </View>
-        </View>
-
-        <View className='f-notLogin'>
-          <NoLogin />
-        </View>
-
+          
         <EditInfo 
           info={this.state.editInfoModal}
-          onCancel={this.hideEditInfo.bind(this)}
+          onCancel={this.hideModal.bind(this)}
           onSubmit={this.submitEditInfo.bind(this)}
           visible={this.state.editInfo} 
         />
 
         <EditWork 
           info={this.state.editWorkExpModal}
-          onCancel={this.hideEditWorkExp.bind(this)}
+          onCancel={this.hideModal.bind(this)}
           onSubmit={this.submitEditWorkExp.bind(this)}
           onDelete={this.deleteWorkExp.bind(this)}
           visible={this.state.editWork} 
@@ -259,13 +285,13 @@ class Me extends Component {
 
         <EditEdu
           info={this.state.editEduExpModal}
-          onCancel={this.hideEditEduExp.bind(this)}
+          onCancel={this.hideModal.bind(this)}
           onSubmit={this.submitEditEduExp.bind(this)}
           onDelete={this.deleteEduExp.bind(this)}
           visible={this.state.editEdu} 
         />
+      </Authorized>
             
-      </View>
     )
   }
 }

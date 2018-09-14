@@ -1,17 +1,16 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text, Button } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
-import { isLogin, isNotLogin, getMyInfo } from '../../actions/user'
+import { isLogin, isNotLogin, getMyInfo, getFavorite } from '../../actions/user'
 import api from '../../api'
 
 import './index.scss'
 
-@connect(({ user }) => ({
-  user
-}), (dispatch) => ({
+@connect(({ }) => ({}), (dispatch) => ({
   isLogin() {
     dispatch(isLogin())
     dispatch(getMyInfo())
+    dispatch(getFavorite(1, true))
   },
   isNotLogin() {
     dispatch(isNotLogin())
@@ -20,11 +19,16 @@ import './index.scss'
 export default class NoLogin extends Component {
 
   async getUserInfo() {
+    Taro.showLoading({ title: '登录中...', mask: true })
     const result = await Taro.login()
     const code = result.code
     const sessionObject = await api.login(code)
+    Taro.hideLoading()
     const session = sessionObject.data.content
-    await Taro.setStorage({ key: 'session', data: session })
+    if (typeof session === 'undefined') {
+      return
+    }
+    Taro.setStorageSync('session', session)
     this.props.isLogin()
   }
 

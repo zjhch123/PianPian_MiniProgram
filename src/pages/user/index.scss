@@ -1,15 +1,58 @@
 .p-user {
   padding: 35rpx 0 0;
+  @keyframes scaleIn {
+    from {
+      transform: scale(.4)
+    }
+    to {
+      transform: scale(1)
+    }
+  }
+  .u-favorite {
+    left: 40rpx;
+    animation: scaleIn .4s;
+    animation-timing-function: cubic-bezier(0,.66,.62,1.63);
+    .u-img {
+      width: 40rpx;
+      height: 40rpx;
+    }
+  }
+  .u-favorite, .u-share {
+    position: absolute;
+    top: 20rpx;
+    width: 80rpx;
+    height: 80rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .u-share {
+    right: 40rpx;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    padding: 0;
+    background-color: transparent;
+    border-radius: 0;
+    &:after {
+      border: none;
+    }
+    .share {
+      width: 40rpx;
+      height: 40rpx;
+      display: block;
+      transition: transform .4s;
+    }
+  }
+  .u-share-hover .share {
+    transform: scale(.95);
+  }
   .m-header {
     display: flex;
     justify-content: center;
   }
-  .m-info {
-    
-  }
   .m-content {
     background: #f7f8f9;
-    padding: 50rpx 40rpx 0;
+    padding: 50rpx 40rpx;
     box-sizing: border-box;
     width: 100%;
     overflow: hidden;

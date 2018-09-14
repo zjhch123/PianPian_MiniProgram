@@ -1,52 +1,182 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View } from '@tarojs/components'
+import { connect } from '@tarojs/redux'
+import { View, Image, Button } from '@tarojs/components'
 import { LargeHeader } from '../../components/UserHeader'
 import UserInfo from '../../components/UserInfo'
-import { LightTitle, SubTitle } from '../../components/Title'
+import { LightTitle, SubTitle, NoExpTitle } from '../../components/Title'
 import { WorkExp, EduExp } from '../../components/Experience'
 import { Card } from '../../components/Card'
+import api from '../../api'
+import { setFavorite, setUnFavorite } from '../../actions/user'
 import './index.scss'
 
+@connect(({ user }) => ({
+  isLogin: user.isLogin
+}), (dispatch) => ({
+  setFavorite(userBase) {
+    dispatch(setFavorite(userBase))
+  },
+  setUnFavorite(id) {
+    dispatch(setUnFavorite(id))
+  }
+}))
 class User extends Component {
 
-  config = {
+  static config = {
+    enablePullDownRefresh: true,
   }
 
-  componentWillReceiveProps (nextProps) {
-    console.log(this.props, nextProps)
+  static defaultProps = {
+    isLogin: false,
   }
 
-  componentWillUnmount () { }
+  constructor() {
+    this.state = {
+      user: {
+        id: 0,
+        userType: 0,
+        UserBase: {},
+        WorkExps: [],
+        EduExps: [],
+        isFavorite: 0,
+      }
+    }
+  }
 
-  componentDidShow () { }
+  componentWillMount() {
+    const id = this.$router.params.id
+    this.id = id
+    this.getUserInfo()
+  }
 
-  componentDidHide () { }
+  async getUserInfo() {
+    this.isFavorite()
+    const result = await api.getUserDetail(this.id)
+    const data = result.data
+    if (data.code !== 200) {
+      return
+    }
+    this.setState({
+      user: data.content
+    })
+  }
+
+  onShareAppMessage() {
+    return {
+      title: `这是 ${this.state.user.UserBase.username} 的名片`
+    }
+  }
+
+  async isFavorite() {
+    const userId = this.id
+    const result = await api.isFavorite(userId)
+    const data = result.data
+    if (data.code !== 200) {
+      this.setState({
+        isFavorite: 0
+      })
+    } else {
+      this.setState({
+        isFavorite: data.content ? 1 : 0
+      })
+    }
+  }
+
+  async onPullDownRefresh() {
+    Taro.showLoading({ title: '获取数据', mask: true })
+    try {
+      await this.getUserInfo()
+    } catch(e) {}
+    Taro.hideLoading()
+    Taro.stopPullDownRefresh()
+  }
+
+  async favorite(type) {
+    const userId = this.id
+    const result = await api.setFavorite(userId, type)
+    const data = result.data
+    if (data.code === 200) {
+      this.setState({
+        isFavorite: type
+      })
+      if (type === 1) {
+        this.props.setFavorite({
+          userId: this.id,
+          ...this.state.user.UserBase,
+        })
+      } else {
+        this.props.setUnFavorite(this.id)
+      }
+    }
+  }
+
+  setUnFavorite() {
+    this.favorite(0)  
+  }
+
+  setFavorite() {
+    this.favorite(1)  
+  }
 
   render () {
+    const {
+      UserBase,
+      WorkExps,
+      EduExps,
+    } = this.state.user
     return (
       <View className='p-user'>
+      { this.props.isLogin && (this.state.isFavorite ?
+        <View className='u-favorite' onClick={this.setUnFavorite.bind(this)}><Image src={require('../../assets/favorited.png')} className='u-img' /></View> :
+        <View className='u-favorite' onClick={this.setFavorite.bind(this)}><Image src={require('../../assets/not_favorite.png')} className='u-img' /></View>)
+      }
+        <Button 
+          className='u-share'
+          hoverClass='u-share-hover'
+          hoverStartTime='0'
+          hoverStayTime='0'
+          openType='share'
+        >
+          <Image src={require('../../assets/share.png')} className='share' />
+        </Button>
         <View className='m-header'>
-          <LargeHeader headerPath='https://image.hduzplus.xyz/image/1a790d56-b465-464d-9798-dfcbd0fc35a9.png' />
+          <LargeHeader headerPath={UserBase.header}  />
         </View>
         <View className='m-info'>
-          <UserInfo />
+          <UserInfo info={UserBase} />
         </View>
         <View className='m-content'>
           <LightTitle text='工作经历' />
           <View className='m-workExp-list'>
-            <WorkExp />
-            <WorkExp />
+          {
+            WorkExps.map(workExp => (
+              <WorkExp 
+                info={workExp}
+                key={workExp.id}
+              />
+            ))
+          }
+          { WorkExps.length === 0 && <NoExpTitle text='暂未填写工作经历' />}
           </View>
           <LightTitle text='教育经历' />
           <View className='m-eduExp-list'>
-            <EduExp />
-            <EduExp />
+          {
+            EduExps.map(eduExp => (
+              <EduExp 
+                info={eduExp}
+                key={eduExp.id}
+              />
+            ))
+          }
+          { EduExps.length === 0 && <NoExpTitle text='暂未填写教育经历' />}
           </View>
         </View>
         <View className='m-card'>
           <SubTitle text='展示卡片' />
           <View className='u-card'>
-            <Card />
+            <Card 
+              imagePath={UserBase.card}
+            />
           </View>
         </View>
       </View>

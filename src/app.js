@@ -1,6 +1,7 @@
 import Taro, { Component } from '@tarojs/taro'
 import '@tarojs/async-await'
-import { Provider } from '@tarojs/redux'
+import { Provider, connect } from '@tarojs/redux'
+import { getMyInfo } from './actions/user'
 
 import Index from './pages/index'
 import configStore from './store'
@@ -9,14 +10,20 @@ import './app.scss'
 
 const store = configStore()
 
+@connect(({}) => ({}), (dispatch) => ({
+  getMyInfo() {
+    dispatch(getMyInfo())
+  }
+}))
 class App extends Component {
 
   config = {
     pages: [
-      'pages/me/me',
       'pages/index/index',
       "pages/search/search",
+      'pages/me/me',
       "pages/user/user",
+      "pages/uploadCard/uploadCard"
     ],
     tabBar: {
       selectedColor: "#007cb1",
@@ -51,7 +58,9 @@ class App extends Component {
     }
   }
 
-  componentDidMount () {}
+  componentDidMount () {
+    this.props.getMyInfo()
+  }
 
   componentDidShow () {}
 

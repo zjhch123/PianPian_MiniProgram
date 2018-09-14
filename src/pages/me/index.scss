@@ -1,10 +1,5 @@
 .p-me {
   padding: 35rpx 0 0;
-  &.f-noLogin {
-    .f-isLogin { display: none }
-    .f-notLogin { display: block; }
-  }
-  .f-notLogin { display: none; }
   .m-header {
     display: flex;
     justify-content: center;

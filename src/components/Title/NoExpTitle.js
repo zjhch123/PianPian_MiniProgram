@@ -1,19 +1,18 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
-import './LightTitle.scss'
+import './NoExpTitle.scss'
 
 export default class LightTitle extends Component {
   
   static defaultProps = {
-    text: '',
-    align: 'left'
+    text: ''
   }
 
   render() {
     const text = this.props.text
     return (
-      <View className='c-lightTlt' style={{textAlign: this.props.align}}>
-        <Text className='u-tlt'>{text}</Text>
+      <View className='c-noExpTitle'>
+        <Text className='u-no-exp'>{text}</Text>
       </View>
     )
   }

@@ -5,7 +5,12 @@
   display: block;
   position: relative;
   border-radius: 30rpx;
+  will-change: transform;
+  transition: transform .6s;
   overflow: hidden;
+  &.user-card-hover {
+    transform: scale(.96);
+  }
   .u-content {
     position: absolute;
     top: 0;
@@ -15,6 +20,7 @@
     display: flex;
     background: rgba(0, 0, 0, .4);
     border-radius: 30rpx;
+    will-change: transform;
     overflow: hidden;
     color: white;
     align-items: center;

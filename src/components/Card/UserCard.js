@@ -6,19 +6,41 @@ import './UserCard.scss'
 
 export default class UserCard extends Component {
 
+  static defaultProps = {
+    user: {
+      username: '新用户',
+      job: '',
+      company: '',
+    }
+  }
+
   render() {
-    const imagePath = this.props.imagePath
+    const {
+      userId,
+      username,
+      job,
+      company,
+      header,
+      card
+    } = this.props.user
     return (
-      <Navigator url='/pages/user/user?id=1' className='c-user-card'>
-        <Card imagePath={imagePath} />
-        <View className='u-content'>
-          <SmallHeader className='u-header' />
-          <View className='u-info'>
-            <Text className='name'>张佳皓</Text>
-            <Text className='job'>张佳皓</Text>
-            <Text className='company'>张佳皓</Text>
+      <Navigator 
+        url={`/pages/user/user?id=${userId}`} 
+        className='c-user-card'
+        hoverClass='user-card-hover'
+        hoverStartTime='0'
+        hoverStayTime='0'
+      >
+        <Card imagePath={card}>
+          <View className='u-content'>
+            <SmallHeader className='u-header' headerPath={header} />
+            <View className='u-info'>
+              <Text className='name'>{username || '新用户'}</Text>
+              <Text className='job'>{job || ''}</Text>
+              <Text className='company'>{company || ''}</Text>
+            </View>
           </View>
-        </View>
+        </Card>
       </Navigator>
     )
   }

@@ -1,7 +1,7 @@
 import Taro from '@tarojs/taro'
 
-const HOST = `http://test.hduzplus.xyz`
-const UPLOAD_HOST = `http://test.hduzplus.xyz`
+const HOST = `https://pianpian.hduzplus.xyz`
+const UPLOAD_HOST = `https://pianpian.hduzplus.xyz`
 
 const formatTime = date => {
   const year = date.getFullYear()
@@ -17,6 +17,13 @@ const formatTime = date => {
 const formatNumber = n => {
   n = n.toString()
   return n[1] ? n : '0' + n
+}
+
+const formatDate = dateStr => {
+  if (!!dateStr) {
+    return dateStr.replace(/\s|月/g, '').replace('年', '-')
+  }
+  return ''
 }
 
 const getSession = async () => {
@@ -56,10 +63,27 @@ const upload = async ({url, header = {}, filePath}) => {
         })
 }
 
+const getDateLimit = () => {
+  const now = new Date()
+  const year = now.getFullYear()
+  const month = ('00' + (now.getMonth() + 1)).slice(-2)
+  return `${year}-${month}-01`
+}
+
+const showError = (msg) => {
+  Taro.showToast({
+    title: msg,
+    icon: 'none',
+  })
+}
+
 export default {
   HOST,
   formatTime: formatTime,
   request,
   upload,
   getSession,
+  formatDate,
+  getDateLimit,
+  showError
 }

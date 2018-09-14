@@ -1,6 +1,7 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text, Input, Button, CheckboxGroup, Checkbox, Picker, Form } from '@tarojs/components'
 import Modal from './Modal'
+import utils from '../../utils'
 import './EditModal.scss'
 
 export default class EditEdu extends Component {
@@ -12,12 +13,9 @@ export default class EditEdu extends Component {
   }
 
   constructor() {
-    const now = new Date()
-    const year = now.getFullYear()
-    const month = ('00' + (now.getMonth() + 1)).slice(-2)
     this.state = {
       degrees: [ '学士', '硕士', '博士' ],
-      dateLimit: `${year}-${month}-01`,
+      dateLimit: utils.getDateLimit(),
       checkbox: false,
       info: {
         id: -1,
@@ -38,8 +36,8 @@ export default class EditEdu extends Component {
         school: info.school || '',
         degree: info.degree || '',
         major: info.major || '',
-        startTime: (info.startTime || '').replace(/\s|月/g, '').replace('年', '-'),
-        endTime: (info.endTime || '').replace(/\s|月/g, '').replace('年', '-'),
+        startTime: utils.formatDate(info.startTime),
+        endTime: utils.formatDate(info.endTime),
       },
       checkbox: info.endTime === '至今'
     })
@@ -92,7 +90,25 @@ export default class EditEdu extends Component {
       endTime: this.state.info.endTime,
       checkbox: this.state.checkbox
     }
-    this.props.onSubmit(submit)
+    if (this.validate(submit)) {
+      this.props.onSubmit(submit)
+    }
+  }
+
+  validate(data) {
+    if (data.school.trim() === '') {
+      utils.showError('请输入学校。')
+      return false
+    }
+    if (data.startTime.trim() === '' || (!data.checkbox && data.endTime.trim() === '')) {
+      utils.showError('请输入开始/结束时间。')
+      return false
+    }
+    if (!data.checkbox && new Date(data.startTime).getTime() > new Date(data.endTime).getTime()) {
+      utils.showError('请检查开始/结束时间。')
+      return false
+    }
+    return true
   }
 
   clickDelete() {
