@@ -1,5 +1,5 @@
 # PianPian_MiniProgram
-暂时名为“片片”的微信小程序
+## 片片plus，极度简洁的名片分享工具!
 
 ## 编辑我的名片
 <img src="https://raw.githubusercontent.com/zjhch123/PianPian_MiniProgram/master/preview/1.jpeg" width="400"/>
