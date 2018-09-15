@@ -6,6 +6,7 @@ import UserInfo from '../../components/UserInfo'
 import { LightTitle, SubTitle, NoExpTitle } from '../../components/Title'
 import { WorkExp, EduExp } from '../../components/Experience'
 import { Card } from '../../components/Card'
+import TabNav from '../../components/TabNav'
 import api from '../../api'
 import { setFavorite, setUnFavorite } from '../../actions/user'
 import './index.scss'
@@ -32,6 +33,7 @@ class User extends Component {
 
   constructor() {
     this.state = {
+      fromShare: false,
       user: {
         id: 0,
         userType: 0,
@@ -43,10 +45,15 @@ class User extends Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const id = this.$router.params.id
     this.id = id
     this.getUserInfo()
+    if (Taro.getCurrentPages().length === 1) {
+      this.setState({
+        fromShare: true
+      })
+    }
   }
 
   async getUserInfo() {
@@ -150,10 +157,7 @@ class User extends Component {
           <View className='m-workExp-list'>
           {
             WorkExps.map(workExp => (
-              <WorkExp 
-                info={workExp}
-                key={workExp.id}
-              />
+              <WorkExp info={workExp} key={workExp.id} />
             ))
           }
           { WorkExps.length === 0 && <NoExpTitle text='暂未填写工作经历' />}
@@ -162,10 +166,7 @@ class User extends Component {
           <View className='m-eduExp-list'>
           {
             EduExps.map(eduExp => (
-              <EduExp 
-                info={eduExp}
-                key={eduExp.id}
-              />
+              <EduExp info={eduExp} key={eduExp.id} />
             ))
           }
           { EduExps.length === 0 && <NoExpTitle text='暂未填写教育经历' />}
@@ -174,11 +175,12 @@ class User extends Component {
         <View className='m-card'>
           <SubTitle text='展示卡片' />
           <View className='u-card'>
-            <Card 
-              imagePath={UserBase.card}
-            />
+            <Card imagePath={UserBase.card} />
           </View>
         </View>
+        {
+          this.state.fromShare && <TabNav />
+        }
       </View>
     )
   }

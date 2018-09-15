@@ -10,7 +10,6 @@ export default class TagList extends Component {
   }
 
   render() {
-    console.log(this.props.tags)
     return (
       <View className='c-tagList'>
         { this.props.tags.map((item, index) => (

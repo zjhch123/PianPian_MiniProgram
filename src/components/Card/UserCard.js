@@ -40,9 +40,9 @@ export default class UserCard extends Component {
         url={`/pages/user/user?id=${userId}`} 
         className='c-user-card'
         style={animateStyle}
-        hoverClass='user-card-hover'
-        hoverStartTime='0'
-        hoverStayTime='0'
+        hoverClass='f-hover'
+        hoverStartTime={0}
+        hoverStayTime={0}
       >
         <Card imagePath={card}>
           <View className='u-content'>

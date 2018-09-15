@@ -11,7 +11,7 @@ export default class Tag extends Component {
 
   render() {
     const text = this.props.text
-    return text !== null ? (
+    return !!text ? (
       <View className='c-tag'>
         <Text className={`u-tag f-type${this.props.type}`}>{text}</Text>
       </View>

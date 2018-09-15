@@ -19,9 +19,9 @@ class App extends Component {
 
   config = {
     pages: [
-      'pages/me/me',
       'pages/index/index',
       "pages/search/search",
+      'pages/me/me',
       "pages/user/user",
       "pages/uploadCard/uploadCard"
     ],
@@ -54,7 +54,7 @@ class App extends Component {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
       navigationBarTitleText: '片片plus',
-      navigationBarTextStyle: 'black'
+      navigationBarTextStyle: 'black',
     }
   }
 
