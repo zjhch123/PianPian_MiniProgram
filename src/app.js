@@ -2,7 +2,6 @@ import Taro, { Component } from '@tarojs/taro'
 import '@tarojs/async-await'
 import { Provider, connect } from '@tarojs/redux'
 import { getMyInfo } from './actions/user'
-
 import Index from './pages/index'
 import configStore from './store'
 import './app.scss'
@@ -19,8 +18,8 @@ class App extends Component {
 
   config = {
     pages: [
-      'pages/index/index',
       "pages/search/search",
+      'pages/index/index',
       'pages/me/me',
       "pages/user/user",
       "pages/uploadCard/uploadCard"

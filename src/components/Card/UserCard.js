@@ -22,7 +22,7 @@ export default class UserCard extends Component {
       job,
       company,
       header,
-      card
+      card,
     } = this.props.user
 
     let animateStyle = ''
@@ -34,7 +34,7 @@ export default class UserCard extends Component {
         animationDelay: delay / 10 + 's'
       }
     }
-
+    
     return (
       <Navigator
         url={`/pages/user/user?id=${userId}`} 
@@ -48,7 +48,9 @@ export default class UserCard extends Component {
           <View className='u-content'>
             <SmallHeader className='u-header' headerPath={header}  />
             <View className='u-info'>
-              <Text className='name'>{username || '新用户'}</Text>
+              <View className='name'>
+                {username || '新用户'}
+              </View>
               <Text className='job'>{job || ''}</Text>
               <Text className='company'>{company || ''}</Text>
             </View>
