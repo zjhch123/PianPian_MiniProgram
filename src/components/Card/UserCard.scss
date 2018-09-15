@@ -1,3 +1,13 @@
+@keyframes rightIn {
+  from {
+    transform: translateX(40rpx);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
 .c-user-card {
   width: 670rpx;
   height: 207rpx;
@@ -6,7 +16,7 @@
   position: relative;
   border-radius: 30rpx;
   will-change: transform;
-  transition: transform .6s;
+  transition: transform .4s;
   overflow: hidden;
   &.user-card-hover {
     transform: scale(.96);

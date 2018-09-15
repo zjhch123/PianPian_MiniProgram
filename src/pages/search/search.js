@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Input } from '@tarojs/components'
-import { Title, SubTitle } from '../../components/Title'
+import { Title, SubTitle, LightTitle } from '../../components/Title'
 import { UserCard } from '../../components/Card'
 import api from '../../api'
 import './index.scss'
@@ -106,9 +106,14 @@ class Search extends Component {
           { this.state.q == '' ? <SubTitle text='推荐用户' /> : <SubTitle text='搜索结果' /> }
           <View className='m-list'>
           {
-            this.state.userList.map(item => (
-              <UserCard user={item} key={item.userId} />
+            this.state.userList.map((item, index) => (
+              <UserCard user={item} key={item.userId} delay={index} animate='true' />
             ))
+          }
+          {
+            this.state.userList.length === 0 ? 
+              <LightTitle text='未搜索到相关用户' align='center' /> :
+              ''
           }
           </View>
         </View>

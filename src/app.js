@@ -19,9 +19,9 @@ class App extends Component {
 
   config = {
     pages: [
+      'pages/me/me',
       'pages/index/index',
       "pages/search/search",
-      'pages/me/me',
       "pages/user/user",
       "pages/uploadCard/uploadCard"
     ],

@@ -9,7 +9,7 @@ import NoLogin from '../NoLogin'
 export default class Authorized extends Component {
 
   static defaultProps = {
-    isLogin: false
+    isLogin: true
   }
 
   render() {

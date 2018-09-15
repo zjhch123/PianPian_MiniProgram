@@ -1,7 +1,7 @@
 import { IS_LOGIN, IS_NOT_LOGIN, SET_USER_INFO, APPEND_FAVORITE, RESET_FAVORITE, SET_FAVORITE, SET_UNFAVORITE } from '../constants/user'
 
 const INITIAL_STATE = {
-  isLogin: false,
+  isLogin: true,
   userInfo: {
     id: 0,
     userType: 0,

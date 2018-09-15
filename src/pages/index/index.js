@@ -23,7 +23,7 @@ class Index extends Component {
   }
 
   static defaultProps = {
-    isLogin: false
+    isLogin: true
   }
   
   componentDidMount() {
@@ -65,13 +65,13 @@ class Index extends Component {
           <Title text='收藏' />
           <View className='m-list'>
           {
-            this.props.favorite.userList.map((item) => {
-              return <UserCard user={item} key={item.userId} />
+            this.props.favorite.userList.map((item, index) => {
+              return <UserCard user={item} key={item.userId} delay={index} animate='true' />
             })
           }
           {
             this.props.favorite.userList.length === 0 ? 
-              <View className='u-noFavorite'><LightTitle text='您还没有收藏任何人' align='center'/></View> :
+              <View className='u-noFavorite'><LightTitle text='您还没有收藏任何人' align='center' /></View> :
               ''
           }
           </View>

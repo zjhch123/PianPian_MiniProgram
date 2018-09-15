@@ -27,7 +27,7 @@ class User extends Component {
   }
 
   static defaultProps = {
-    isLogin: false,
+    isLogin: true,
   }
 
   constructor() {

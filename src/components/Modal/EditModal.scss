@@ -43,9 +43,11 @@
 }
 .m-input-group {
   margin-bottom: 8rpx;
+  font-size: 0;
 }
 .u-label {
   font-size: 28rpx;
+  display: block;
 }
 .u-input {
   border: 2rpx solid #888;
@@ -62,4 +64,13 @@
   font-size: 35rpx;
   transform: scale(.75);
   transform-origin: left center;
+}
+.m-input-row {
+  display: flex;
+  .u-input {
+    flex: 1;
+    & + .u-input {
+      margin-left: 12rpx;
+    }
+  }
 }

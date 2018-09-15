@@ -1,0 +1,19 @@
+.c-tag {
+  display: inline-block;
+  padding: 0 6rpx;
+  font-size: 0;
+  .u-tag {
+    font-size: 24rpx;
+    padding: 0 24rpx;
+    color: white;
+    &.f-type1 {
+      background: #faa755;
+    }
+    &.f-type2 {
+      background: #009ad6;
+    }
+    &.f-type3 {
+      background: #411445;
+    }
+  }
+}

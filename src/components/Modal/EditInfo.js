@@ -28,6 +28,10 @@ export default class EditInfo extends Component {
       utils.showError('请输入姓名。')
       return false
     }
+    if (data.tag1.trim().length > 20 || data.tag2.trim().length > 20 || data.tag3.trim().length > 20) {
+      utils.showError('个性标签的长度不能超过20位。')
+      return false
+    }
     return true
   }
 
@@ -78,6 +82,32 @@ export default class EditInfo extends Component {
               name='desc'
               className='u-input'
             />
+          </View>
+          <View className='m-input-group'>
+            <Text className='u-label'>个性标签</Text>
+            <View className='m-input-row'>
+              <Input 
+                type='text' 
+                value={info.tag1 || ''}
+                name='tag1'
+                className='u-input'
+                placeholder='个性标签'
+              />
+              <Input 
+                type='text' 
+                value={info.tag2 || ''}
+                name='tag2'
+                className='u-input'
+                placeholder='个性标签'
+              />
+              <Input 
+                type='text' 
+                value={info.tag3 || ''}
+                name='tag3'
+                className='u-input'
+                placeholder='个性标签'
+              />
+            </View>
           </View>
           <View className='u-footer'>
           <Button 

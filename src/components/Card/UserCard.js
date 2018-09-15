@@ -7,6 +7,7 @@ import './UserCard.scss'
 export default class UserCard extends Component {
 
   static defaultProps = {
+    animate: false,
     user: {
       username: '新用户',
       job: '',
@@ -23,17 +24,29 @@ export default class UserCard extends Component {
       header,
       card
     } = this.props.user
+
+    let animateStyle = ''
+    if (!!this.props.animate) {
+      const delay = +this.props.delay || 0
+      animateStyle = {
+        animation: 'rightIn .4s',
+        animationFillMode: 'both',
+        animationDelay: delay / 10 + 's'
+      }
+    }
+
     return (
-      <Navigator 
+      <Navigator
         url={`/pages/user/user?id=${userId}`} 
         className='c-user-card'
+        style={animateStyle}
         hoverClass='user-card-hover'
         hoverStartTime='0'
         hoverStayTime='0'
       >
         <Card imagePath={card}>
           <View className='u-content'>
-            <SmallHeader className='u-header' headerPath={header} />
+            <SmallHeader className='u-header' headerPath={header}  />
             <View className='u-info'>
               <Text className='name'>{username || '新用户'}</Text>
               <Text className='job'>{job || ''}</Text>
