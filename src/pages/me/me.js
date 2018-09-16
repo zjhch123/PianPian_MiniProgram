@@ -197,7 +197,8 @@ class Me extends Component {
 
   onShareAppMessage() {
     return {
-      title: `我在用片片, 这是我的名片`
+      title: `我在用片片, 这是我的名片。`,
+      path: `/pages/user/user?id=${this.props.userInfo.id}`,
     }
   }
 

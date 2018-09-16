@@ -18,8 +18,8 @@ class App extends Component {
 
   config = {
     pages: [
-      "pages/search/search",
       'pages/index/index',
+      "pages/search/search",
       'pages/me/me',
       "pages/user/user",
       "pages/uploadCard/uploadCard"
